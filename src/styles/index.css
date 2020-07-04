@@ -1,0 +1,105 @@
+body {
+    background-color: lightgray;
+  }
+  
+  .table {
+    margin-bottom: 0;
+    border-radius: 5px;
+    border-collapse: inherit;
+  }
+  
+  .round {
+    border-radius: 5px !important;
+  }
+  
+  tr:hover .totalDead {
+    color: #dc3545;
+    transition: color 0.25s ease-in-out;
+  }
+  
+  tr:hover .totalCases {
+    color: #ffc107;
+    transition: color 0.25s ease-in-out;
+  }
+  
+  tr:hover .totalRecovered {
+    color: #28a745;
+    transition: color 0.25s ease-in-out;
+  }
+  
+  tr:hover .deathRate {
+    color: tan;
+    transition: color 0.25s ease-in-out;
+  }
+  
+  th:hover {
+    cursor: pointer;
+  }
+  
+  td,
+  th {
+    font-size: 1.2em;
+  }
+  
+  .text {
+    color: #43494e !important;
+    letter-spacing: 0.2rem;
+  }
+  
+  .searchIcon {
+    color: #43494e;
+  }
+  
+  .loader {
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    color: #43494e;
+  }
+  
+  .card-title {
+    margin-bottom: 0;
+  }
+  
+  .card-body {
+    padding: 0.75rem !important;
+  }
+  
+  a:hover {
+    text-decoration: none;
+  }
+  
+  .link-hover:hover {
+    color: #ffc107 !important;
+    transition: color 0.20s ease-in-out;
+  }
+  
+  @media (max-width: 767px) {
+    .text-center {
+      text-align: center;
+    }
+  
+    td,
+    th {
+      font-size: 0.4em;
+    }
+  
+    .h5 {
+      font-size: 0.8em;
+    }
+  
+    .card {
+      width: 18rem !important;
+      margin: 0 auto !important;
+      margin-bottom: 15px !important;
+    }
+  }
+  
+  .about-form {
+    margin-top: 20vh;
+  }
+  
+  .contact-form {
+    margin-top: 20vh;
+  }
