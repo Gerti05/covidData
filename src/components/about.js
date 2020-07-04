@@ -11,7 +11,7 @@ export default function about() {
           <Container>
             <h2 className="text">About</h2>
             <p>
-              Changed
+              Changed.
             </p>
           </Container>
         </Jumbotron>
