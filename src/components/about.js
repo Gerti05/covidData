@@ -11,7 +11,11 @@ export default function about() {
           <Container>
             <h2 className="text">About</h2>
             <p>
+<<<<<<< HEAD
               Changed
+=======
+              lkgkyufhjgfjhhjkl;lkhlgfjhgdfgdsfghjklj;hgfdhjkl;
+>>>>>>> e39209a4d260208048540b65d20d2ddf43eaae7e
             </p>
           </Container>
         </Jumbotron>
