@@ -6,32 +6,76 @@ import { Table } from "react-bootstrap";
 class coronaDataList extends Component {
   state = {
     clicked: false,
-    leastToGreatest: false
+    sortDeathRate: true,
+    sortCases: true,
+    sortDeaths: true,
+    sortRecoveries: true,
+    sortedAZ: true,
+    size: (window.innerWidth <= 360) ? "24" : "32"
   };
 
-  handleClick = (e) => {
-    if (e === "reverseCountries" && !this.props.search) {
+  handleClick = (e, g, z) => {
+    if (e === "reverseCountries") {
       this.setState({ clicked: !this.state.clicked }, () => {
         this.setState({ clicked: !this.state.clicked });
       });
-      let sortedCountries = this.props.data.Countries.sort()
-      this.mappedData(sortedCountries.reverse());
-    } else if (e === "reverseCountries" && this.props.search) {
-      console.log("you");
-      this.setState({ reverseCountries: !this.state.reverseCountries });
-    } else if (e === "sortCases" && !this.props.search) {
-      this.setState({ leastToGreatest: !this.state.leastToGreatest });
-      if(!this.state.leastToGreatest) {
-        this.mappedData(this.props.data.Countries.sort(
-          (a, b) => parseFloat(a.TotalConfirmed) - parseFloat(b.TotalConfirmed)
-        ));
-        this.props.data.Countries.sort()
-      }else if (this.state.leastToGreatest) {
-        this.mappedData(this.props.data.Countries.sort(
-          (a, b) => parseFloat(b.TotalConfirmed) - parseFloat(a.TotalConfirmed)
-        ));
+
+      let sortedCountries = this.props.data.Countries;
+
+      if (this.state.sortedAZ) {
+        this.setState({ sortedAZ: false });
+        sortedCountries.sort(function (a, b) {
+          if (a.Country < b.Country) {
+            return -1;
+          }
+          if (a.Country > b.Country) {
+            return 1;
+          }
+          return 0;
+        });
+      } else if (!this.state.sortedAZ) {
+        this.setState({ sortedAZ: true });
+        sortedCountries.sort(function (a, b) {
+          if (a.Country < b.Country) {
+            return 1;
+          }
+          if (a.Country > b.Country) {
+            return -1;
+          }
+          return 0;
+        });
       }
-      this.props.data.Countries.sort()
+
+      this.mappedData(sortedCountries.reverse());
+    } else if (
+      e === "sortCases" ||
+      e === "sortRecoveries" ||
+      e === "sortDeaths"
+    ) {
+      this.clickSort(e, g);
+    } else if (e === "sortDeathRate") {
+      this.setState({ sortedAZ: false });
+      this.setState({ sortDeathRate: !this.state.sortDeathRate });
+      this.setState({ sortCases: true });
+      this.setState({ sortDeaths: true });
+      this.setState({ sortRecoveries: true });
+      if (!this.state.sortDeathRate) {
+        this.mappedData(
+          this.props.data.Countries.sort(
+            (a, b) =>
+              (parseFloat(a[g]) / parseFloat(a[z])) * 100 -
+              (parseFloat(b[g]) / parseFloat(b[z])) * 100
+          )
+        );
+      } else if (this.state.sortDeathRate) {
+        this.mappedData(
+          this.props.data.Countries.sort(
+            (a, b) =>
+              (parseFloat(b[g]) / parseFloat(b[z])) * 100 -
+              (parseFloat(a[g]) / parseFloat(a[z])) * 100
+          )
+        );
+      }
     }
   };
 
@@ -51,12 +95,34 @@ class coronaDataList extends Component {
               <th onClick={(e) => this.handleClick("reverseCountries")}>
                 Countries
               </th>
-              <th onClick={(e) => this.handleClick("sortCases")}>
+              <th
+                onClick={(e) => this.handleClick("sortCases", "TotalConfirmed")}
+              >
                 Total Cases
               </th>
-              <th>Total Deaths</th>
-              <th>Total Recoveries</th>
-              <th>Death Rate %</th>
+              <th
+                onClick={(e) => this.handleClick("sortDeaths", "TotalDeaths")}
+              >
+                Total Deaths
+              </th>
+              <th
+                onClick={(e) =>
+                  this.handleClick("sortRecoveries", "TotalRecovered")
+                }
+              >
+                Total Recoveries
+              </th>
+              <th
+                onClick={(e) =>
+                  this.handleClick(
+                    "sortDeathRate",
+                    "TotalDeaths",
+                    "TotalConfirmed"
+                  )
+                }
+              >
+                Death Rate %
+              </th>
             </tr>
           </thead>
           {this.props.search ? this.filterSearchData() : this.mappedData()}
@@ -67,7 +133,13 @@ class coronaDataList extends Component {
 
   tableDisplayBody = (data) => {
     if (!data) {
-      return <div>Loading...</div>;
+      return (
+        <tbody>
+          <tr>
+            <td>Loading...</td>
+          </tr>
+        </tbody>
+      );
     } else {
       return data.map((Country) => {
         return (
@@ -77,7 +149,7 @@ class coronaDataList extends Component {
                 <img
                   className="mr-3"
                   alt="flag"
-                  src={`https://www.countryflags.io/${Country.CountryCode}/flat/32.png`}
+                  src={`https://www.countryflags.io/${Country.CountryCode}/flat/${this.state.size}.png`}
                 ></img>
                 {Country.Country}
               </td>
@@ -125,8 +197,7 @@ class coronaDataList extends Component {
     return newArray;
   };
 
-  mappedData = (e) => {
-    console.log(this.state.clicked);
+  mappedData = (e, a) => {
     return !this.state.clicked
       ? this.tableDisplayBody(this.props.data.Countries)
       : this.tableDisplayBody(e);
@@ -136,6 +207,41 @@ class coronaDataList extends Component {
     return this.state.reverseCountries
       ? this.tableDisplayBody(this.filterFunction().reverse())
       : this.tableDisplayBody(this.filterFunction());
+  };
+
+  clickSort = (e, g) => {
+    this.setState({ sortedAZ: false });
+    this.changeLToG(e);
+    this.setState({ sortDeathRate: true });
+    if (!this.state[e]) {
+      this.mappedData(
+        this.props.data.Countries.sort(
+          (a, b) => parseFloat(a[g]) - parseFloat(b[g])
+        )
+      );
+    } else if (this.state[e]) {
+      this.mappedData(
+        this.props.data.Countries.sort(
+          (a, b) => parseFloat(b[g]) - parseFloat(a[g])
+        )
+      );
+    }
+  };
+
+  changeLToG = (e) => {
+    if (e === "sortCases") {
+      this.setState({ sortCases: !this.state.sortCases });
+      this.setState({ sortDeaths: true });
+      this.setState({ sortRecoveries: true });
+    } else if (e === "sortDeaths") {
+      this.setState({ sortCases: true });
+      this.setState({ sortDeaths: !this.state.sortDeaths });
+      this.setState({ sortRecoveries: true });
+    } else if (e === "sortRecoveries") {
+      this.setState({ sortCases: true });
+      this.setState({ sortDeaths: true });
+      this.setState({ sortRecoveries: !this.state.sortRecoveries });
+    }
   };
 
   render() {

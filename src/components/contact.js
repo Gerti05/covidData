@@ -1,14 +1,16 @@
 import React from "react";
 import Nav from "./navbar";
-import { Container, Col, Form, Button } from "react-bootstrap";
+import Footer from "./footer"
+import { Container, Col, Form, Button, Jumbotron } from "react-bootstrap";
 
 export default function contact() {
   return (
     <div>
       <Nav />
       <Container>
+      <Jumbotron fluid className="contact-form pl-5 pr-5 round">
         <Form
-          className="contact-form text-center"
+          className="text-center"
           name="contact"
           method="POST"
           data-netlify="true"
@@ -38,11 +40,13 @@ export default function contact() {
               placeholder="Your Message"
             />
           </Form.Group>
-          <Button variant="success" className="float-center" type="submit">
+          <Button  block variant="danger" className="float-center" type="submit">
             Submit
           </Button>
         </Form>
+        </Jumbotron>
       </Container>
+      <Footer />
     </div>
   );
 }

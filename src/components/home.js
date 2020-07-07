@@ -3,6 +3,7 @@ import CoronaData from "./coronaDataList";
 import Nav from "./navbar";
 import Searchbar from "./searchbar";
 import DataWindow from "./coronaDataWindow";
+import Footer from "./footer";
 import { connect } from "react-redux";
 import { fetchData } from "../actions";
 import { Spinner, Container } from "react-bootstrap";
@@ -29,6 +30,7 @@ class home extends Component {
           <Searchbar />
           <CoronaData />
           </Container>
+          <Footer />
         </div>
       );
     }
