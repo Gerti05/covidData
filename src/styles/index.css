@@ -112,7 +112,7 @@ a:hover {
 
   td,
   th {
-    font-size: 0.6em;
+    font-size: 0.55em;
   }
 
   .h5 {
@@ -123,19 +123,5 @@ a:hover {
     width: 18rem !important;
     margin: 0 auto !important;
     margin-bottom: 15px !important;
-  }
-}
-
-@media (max-width: 375px) {
-  td,
-  th {
-    font-size: 0.55em;
-  }
-}
-
-@media (max-width: 320px) {
-  td,
-  th {
-    font-size: 0.418em;
   }
 }
