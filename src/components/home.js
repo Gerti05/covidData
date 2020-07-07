@@ -25,12 +25,12 @@ class home extends Component {
       return (
         <div>
           <Nav />
-          <Container>
+          <Container className="homeMargin">
           <DataWindow />
           <Searchbar />
           <CoronaData />
           </Container>
-          <Footer />
+          <Footer footer="sticky-bottom"/>
         </div>
       );
     }

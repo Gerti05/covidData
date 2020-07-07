@@ -21,7 +21,7 @@ export default function about() {
           </Container>
         </Jumbotron>
       </Container>
-      <Footer/>
+      <Footer footer="fixed-bottom"/>
     </div>
   );
 }
