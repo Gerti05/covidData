@@ -3,7 +3,7 @@ import Nav from "./navbar";
 import Footer from "./footer"
 import { Container, Col, Form, Button, Jumbotron } from "react-bootstrap";
 
-export default function contact() {
+const Contact = () => {
   return (
     <div>
       <Nav />
@@ -50,3 +50,5 @@ export default function contact() {
     </div>
   );
 }
+
+export default Contact
